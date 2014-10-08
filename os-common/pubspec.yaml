@@ -1,0 +1,9 @@
+name: os-common
+version: 0.1.0
+dependencies:
+  collection: any
+dev_dependencies:
+  redstone_mapper: '>=0.1.8 <0.2.0'
+  unittest: any
+transformers:
+ - redstone_mapper

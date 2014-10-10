@@ -1,10 +1,13 @@
-name: os_common
+name: os_user
 version: 0.1.0
 dependencies:
   collection: any
-dev_dependencies:
+  mongo_dart: any
   redstone_mapper: '>=0.1.8 <0.2.0'
   redstone_mapper_mongo: '>=0.1.1+1 <0.2.0'
+  os_common:
+    path: ../os-common
+dev_dependencies:
   unittest: any
 transformers:
  - redstone_mapper

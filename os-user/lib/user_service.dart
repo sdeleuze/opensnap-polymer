@@ -6,20 +6,22 @@ import 'package:redstone_mapper/plugin.dart';
 import 'package:redstone_mapper_mongo/service.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 
-import "package:os_common/os_common.dart";
+import 'package:os_common/os_common.dart';
 
 @app.Group('/user')
 @Encode()
 class UserService extends MongoDbService<User> {
 
-  UserService() : super("users");
+  UserService() : super('users');
 
   @app.Route('/')
   Future<List<User>> list() => find();
 
   @app.Route('/', methods: const [app.POST])
-  Future<User> add(@Decode() User user) {
-    user.id = new ObjectId().toHexString(); 
+  Future<User> create(@Decode() User user) {
+    if(user.id == null) {
+      user.id = new ObjectId().toHexString();
+    }
     return insert(user).then((_) => user);
   }
   

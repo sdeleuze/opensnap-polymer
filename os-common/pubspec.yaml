@@ -3,8 +3,8 @@ version: 0.1.0
 dependencies:
   collection: any
 dev_dependencies:
-  redstone_mapper: '>=0.1.8 <0.2.0'
-  redstone_mapper_mongo: '>=0.1.1+1 <0.2.0'
+  redstone: any
+  mongo_dart: any
+  connection_pool: any
   unittest: any
-transformers:
- - redstone_mapper
+

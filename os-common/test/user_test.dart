@@ -1,25 +1,30 @@
 import 'dart:convert';
 import 'package:unittest/unittest.dart';
 import 'package:os_common/os_common.dart';
-import 'package:redstone_mapper/mapper.dart';
-import 'package:redstone_mapper/mapper_factory.dart';
 
 main() {
-  
-  setUp(() => bootstrapMapper());
- 
-  test('Serialize User', () {
-    User user = new User('sdeleuze', 'azerty', ['USER', 'ADMIN'], "1234");
-    String json = JSON.encode(encode(user));
-    expect(json, equals('{"id":"1234","username":"sdeleuze","password":"azerty","roles":["USER","ADMIN"]}'));
+
+  test('Serialize', () {
+    User user = new User('sdeleuze', 'azerty', ['USER', 'ADMIN'], "54394905de442c3a8b250257");
+    String json = JSON.encode(user.toJson());
+    expect(json, equals('{"_id":"54394905de442c3a8b250257","username":"sdeleuze","password":"azerty","roles":["USER","ADMIN"]}'));
   });
-  
-  test('Deserialize User', () {
-    String json = '{"id":"1234","username":"sdeleuze","password":"azerty","roles":["USER","ADMIN"]}'; 
-    User user = decode(JSON.decode(json), User);
-    expect('1234', equals(user.id));
+
+  test('Deserialize', () {
+    String json = '{"_id":"54394905de442c3a8b250257","username":"sdeleuze","password":"azerty","roles":["USER","ADMIN"]}';
+    User user = new User.fromJson(JSON.decode(json));
+    expect('54394905de442c3a8b250257', equals(user.id));
     expect('sdeleuze', equals(user.username));
     expect('azerty', equals(user.password));
     expect(['USER','ADMIN'], equals(user.roles));
+  });
+
+  test('Equals', () {
+      User user1 = new User('sdeleuze', 'azerty', ['USER', 'ADMIN'], "54394905de442c3a8b250257");
+      User user2 = new User('sdeleuze', 'azerty', ['USER', 'ADMIN'], "54394905de442c3a8b250257");
+      expect(user1, equals(user2));
+      User user3 = new User.fromId("54394905de442c3a8b250257");
+      User user4 = new User.fromId("54394905de442c3a8b250257");
+      expect(user3, equals(user4));
   });
 }

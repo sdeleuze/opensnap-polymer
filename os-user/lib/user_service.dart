@@ -1,41 +1,34 @@
 library os_user;
 
-import 'dart:async';
 import 'package:redstone/server.dart' as app;
-import 'package:redstone_mapper/plugin.dart';
-import 'package:redstone_mapper_mongo/service.dart';
 import 'package:mongo_dart/mongo_dart.dart';
-
 import 'package:os_common/os_common.dart';
 
 @app.Group('/user')
-@Encode()
-class UserService extends MongoDbService<User> {
+class UserService {
 
-  UserService() : super('users');
+ DbCollection get users => app.request.attributes.db.collection("users");
 
   @app.Route('/')
-  Future<List<User>> list() => find();
+  list() => users.find().toList();
 
   @app.Route('/', methods: const [app.POST])
-  Future<User> create(@Decode() User user) {
+  create(@Decode() User user) {
     if(user.id == null) {
       user.id = new ObjectId().toHexString();
     }
-    return insert(user).then((_) => user);
+    var jsonUser = user.toJson();
+    return users.insert(jsonUser).then((_) => jsonUser);
   }
-  
+
   @app.Route('/:id')
-  Future<User> getById(String id) =>
-      findOne(where.id(ObjectId.parse(id)));
-  
+  getById(String id) => users.findOne(where.eq('_id', id));
+
   @app.Route('/name/:name')
-    Future<User> getByName(String name) =>
-        findOne(where.eq('username', name));
-      
-      
+  getByName(String name) => users.findOne(where.eq('username', name));
+
+
   @app.Route('/:id', methods: const [app.DELETE])
-  Future<bool> delete(String id) =>
-    remove(where.id(ObjectId.parse(id))).then((_) => true);
+  delete(String id) => users.remove(where.eq('_id', id)).then((_) => true);
 
 }

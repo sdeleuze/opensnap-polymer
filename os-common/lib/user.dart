@@ -1,6 +1,9 @@
 part of os_common;
 
 class User {
+  
+  // TODO This should be a dynamic property
+  static const String BASE_URL = 'http://localhost:8081/user/';
 
   String id;
   String username;

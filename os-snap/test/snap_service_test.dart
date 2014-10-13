@@ -6,18 +6,19 @@ import 'package:redstone/server.dart' as app;
 import 'package:redstone/mocks.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 import 'package:os_common/os_common.dart';
+import 'package:os_user/os_user.dart';
 import '../lib/snap_service.dart';
 
 const uri = 'mongodb://localhost/test';
 Db _db = new Db(uri);
 DbCollection _snaps = _db.collection('snaps');
 
-User _pauline = new User.fromId(new ObjectId().toHexString());
-User _seb = new User.fromId(new ObjectId().toHexString());
-User _baptiste = new User.fromId(new ObjectId().toHexString());
+User _pauline = new User.fromId('543b80c33786c930f70e3960');
+User _seb = new User.fromId('543b80c33786c930f70e3961');
+User _baptiste = new User.fromId('543b80c33786c930f70e3962');
 
-Snap _snap1 = new Snap(_pauline, [_seb], 'data:image/jpg;base64,/9j/4AAQSkZJR', 10, new ObjectId().toHexString());
-Snap _snap2 = new Snap(_baptiste, [_pauline, _seb], 'data:image/jpg;base64,/9j/4AAQSkZJR', 10, new ObjectId().toHexString());
+Snap _snap1 = new Snap(_pauline, [_seb], 'data:image/jpg;base64,/9j/4AAQSkZJR', 10, '563b80c33786c930f70e4000');
+Snap _snap2 = new Snap(_baptiste, [_pauline, _seb], 'data:image/jpg;base64,/9j/4AAQSkZJR', 10, '563b80c33786c930f70e4001');
 
 main() {
   

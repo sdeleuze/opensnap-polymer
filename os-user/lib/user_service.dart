@@ -1,8 +1,4 @@
-library os_user;
-
-import 'package:redstone/server.dart' as app;
-import 'package:mongo_dart/mongo_dart.dart';
-import 'package:os_common/os_common.dart';
+part of os_user;
 
 @app.Group('/user')
 class UserService {

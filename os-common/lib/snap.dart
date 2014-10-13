@@ -21,7 +21,7 @@ class Snap {
     if(id != null) json['_id'] = id;
     if(photo != null) json['photo'] = photo;
     if(duration != null) json['duration'] = duration;
-    var jsonLinks = {'curies': [{ 'name': 'u', 'href': 'http://localhost:8081/user/{rel}', 'templated': true }]};
+    var jsonLinks = {'curies': [{ 'name': 'u', 'href': '${User.BASE_URL}{rel}', 'templated': true }]};
     if(author != null && author.id != null) jsonLinks['u:author'] = author.toLink();
     if(recipients != null && recipients.isNotEmpty) jsonLinks['u:recipients'] = recipients.map((_) => _.toLink()).toList(); 
     if(jsonLinks.length > 1) json['_links'] = jsonLinks;
@@ -33,5 +33,21 @@ class Snap {
     Snap s = other;
     return ((s.id == id) && (s.author == author) && listEq(s.recipients, recipients) && (s.photo == photo) && (s.duration == duration));
   }
-
+  
+  Future<Snap> fetch() => http.get(Uri.parse('${User.BASE_URL}${id}'),headers: {'Accept': 'application/json'}).then((response) {
+    author = new User.fromJson(JSON.decode(response.body));
+    return this;
+  });
+  
+  static Future<List<Snap>> fetchAll(List<Snap> snaps) {
+    List authorIds =  snaps.map((snap) => snap.author.id).toList();
+    return http.get(Uri.parse('${User.BASE_URL}${authorIds.join(',')}'),headers: {'Accept': 'application/json'}).then((response) {
+      List jsonUsers = JSON.decode(response.body);
+      return snaps.map((snap) {
+        snap.author = new User.fromJson(jsonUsers.singleWhere((jsonUser) => jsonUser['_id'] == snap.author.id));
+        return snap;
+      }).toList();
+    });    
+  }
+      
 }

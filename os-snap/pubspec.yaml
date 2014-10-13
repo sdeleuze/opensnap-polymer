@@ -10,3 +10,5 @@ dependencies:
     path: ../os-common
 dev_dependencies:
   unittest: any
+  os_user:
+    path: ../os-user

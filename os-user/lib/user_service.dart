@@ -22,7 +22,13 @@ class UserService {
   }
 
   @app.Route('/:id')
-  getById(String id) => users.findOne(where.eq('_id', id));
+    getById(String id) {
+      if(id.contains(',')) {
+        return users.find(where.oneFrom('_id', id.split(','))).toList();
+      } else {
+        return users.findOne(where.eq('_id', id)); 
+      }
+    }
 
   @app.Route('/name/:name')
   getByName(String name) => users.findOne(where.eq('username', name));

@@ -55,6 +55,16 @@ main() {
     });
   });
   
+  test('Get by ids', () {
+    var req = new MockRequest('/snap/${_snap1.id},${_snap2.id}');  
+    return app.dispatch(req).then((resp) {
+      expect(resp.statusCode, equals(HttpStatus.OK));
+      List<Snap> snaps = JSON.decode(resp.mockContent).map((_) => new Snap.fromJson(_)).toList();
+      expect(snaps, isNotNull);
+      expect(snaps.length, equals(2));
+    });
+  });
+  
   test('Get by author', () {
     var req = new MockRequest('/snap/sent/${_pauline.id}');  
     return app.dispatch(req).then((resp) {

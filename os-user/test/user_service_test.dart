@@ -12,8 +12,8 @@ const uri = 'mongodb://localhost/test';
 Db _db = new Db(uri);
 DbCollection _users = _db.collection('users');
 
-Map _pauline = {'_id': new ObjectId().toHexString(), 'username': 'Pauline', 'password': 'azerty', 'roles': ['USER']};
-Map _seb = {'_id': new ObjectId().toHexString(), 'username': 'Seb', 'password': 'qwerty', 'roles': ['USER', 'ADMIN']};
+User _pauline = new User('Pauline', 'azerty', ['USER'], new ObjectId().toHexString());
+User _seb = new User('Seb', 'qwerty', ['USER', 'ADMIN'], new ObjectId().toHexString());
 
 main() {
 
@@ -23,7 +23,7 @@ main() {
     app.addPlugin(ObjectMapper);
     app.setUp([#os_common, #os_user]);
 
-    return _db.open().then((_) => _users.drop().then((_) => _users.insertAll([_pauline, _seb])));
+    return _db.open().then((_) => _users.drop().then((_) => _users.insertAll([_pauline.toJson(), _seb.toJson()])));
   });
 
   tearDown(() {
@@ -53,30 +53,40 @@ main() {
   });
 
   test('Get by id', () {
-    var req = new MockRequest('/user/${_pauline['_id']}');
+    var req = new MockRequest('/user/${_pauline.id}');
     return app.dispatch(req).then((resp) {
       expect(resp.statusCode, equals(HttpStatus.OK));
       User user = new User.fromJson(JSON.decode(resp.mockContent));
       expect(user, isNotNull);
-      expect(user.id, equals(_pauline['_id']));
+      expect(user.id, equals(_pauline.id));
+    });
+  });
+  
+  test('Get by ids', () {
+    var req = new MockRequest('/user/${_pauline.id},${_seb.id}');  
+    return app.dispatch(req).then((resp) {
+      expect(resp.statusCode, equals(HttpStatus.OK));
+      List<User> users = JSON.decode(resp.mockContent).map((_) => new User.fromJson(_)).toList();
+      expect(users, isNotNull);
+      expect(users.length, equals(2));
     });
   });
 
   test('Get by name', () {
-    var req = new MockRequest('/user/name/${_pauline['username']}');
+    var req = new MockRequest('/user/name/${_pauline.username}');
     return app.dispatch(req).then((resp) {
       expect(resp.statusCode, equals(HttpStatus.OK));
       User user = new User.fromJson(JSON.decode(resp.mockContent));
       expect(user, isNotNull);
-      expect(user.id, equals(_pauline['_id']));
+      expect(user.id, equals(_pauline.id));
     });
   });
 
   test('Delete by id', () {
-    var req = new MockRequest('/user/${_pauline['_id']}', method: app.DELETE);
+    var req = new MockRequest('/user/${_pauline.id}', method: app.DELETE);
     return app.dispatch(req).then((resp) {
       expect(resp.statusCode, equals(HttpStatus.OK));
-      return _users.findOne(where.eq('_id', _pauline['_id'])).then((_) => expect(_, isNull));
+      return _users.findOne(where.eq('_id', _pauline.id)).then((_) => expect(_, isNull));
     });
   });
 

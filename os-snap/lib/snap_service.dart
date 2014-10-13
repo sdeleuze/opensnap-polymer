@@ -19,7 +19,13 @@ class SnapService {
   }
   
   @app.Route('/:id')
-  getById(String id) => snaps.findOne(where.eq('_id', id));
+  getById(String id) {
+    if(id.contains(',')) {
+      return snaps.find(where.oneFrom('_id', id.split(','))).toList();
+    } else {
+      return snaps.findOne(where.eq('_id', id)); 
+    }
+  }
   
   @app.Route('/received/:userId')
   received(String userId) => snaps.find(where.eq('_links.u:recipients.href', userId)).toList();

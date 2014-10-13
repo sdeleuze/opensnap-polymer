@@ -16,8 +16,8 @@ User _pauline = new User.fromId(new ObjectId().toHexString());
 User _seb = new User.fromId(new ObjectId().toHexString());
 User _baptiste = new User.fromId(new ObjectId().toHexString());
 
-Map _snap1 = {'_id': new ObjectId().toHexString(), 'author': _pauline.toJson(), 'recipients': [_seb.toJson()], 'duration': 10};
-Map _snap2 = {'_id': new ObjectId().toHexString(), 'author': _baptiste.toJson(), 'recipients': [_pauline.toJson(), _seb.toJson()], 'duration': 4};
+Snap _snap1 = new Snap(_pauline, [_seb], 'data:image/jpg;base64,/9j/4AAQSkZJR', 10, new ObjectId().toHexString());
+Snap _snap2 = new Snap(_baptiste, [_pauline, _seb], 'data:image/jpg;base64,/9j/4AAQSkZJR', 10, new ObjectId().toHexString());
 
 main() {
   
@@ -27,7 +27,7 @@ main() {
     app.addPlugin(ObjectMapper);
     app.setUp([#os_common, #os_snap]);
     
-    return _db.open().then((_) => _snaps.drop().then((_) => _snaps.insertAll([_snap1, _snap2])));
+    return _db.open().then((_) => _snaps.drop().then((_) => _snaps.insertAll([_snap1.toJson(), _snap2.toJson()])));
   });
 
   tearDown(() {
@@ -46,12 +46,12 @@ main() {
   });
   
   test('Get by id', () {
-    var req = new MockRequest('/snap/${_snap1['_id']}');  
+    var req = new MockRequest('/snap/${_snap1.id}');  
     return app.dispatch(req).then((resp) {
       expect(resp.statusCode, equals(HttpStatus.OK));
       Snap snap = new Snap.fromJson(JSON.decode(resp.mockContent));
       expect(snap, isNotNull);
-      expect(snap.id, equals(_snap1['_id']));
+      expect(snap.id, equals(_snap1.id));
     });
   });
   
@@ -62,7 +62,7 @@ main() {
       List<Snap> snaps = JSON.decode(resp.mockContent).map((_) => new Snap.fromJson(_)).toList();
       expect(snaps, isNotNull);
       expect(snaps.length, equals(1));
-      expect(snaps[0].id, equals(_snap1['_id']));
+      expect(snaps[0].id, equals(_snap1.id));
     });
   });
   
@@ -77,10 +77,10 @@ main() {
   });
   
   test('Delete by id', () {
-    var req = new MockRequest('/snap/${_snap1['_id']}', method: app.DELETE);  
+    var req = new MockRequest('/snap/${_snap1.id}', method: app.DELETE);  
     return app.dispatch(req).then((resp) {
       expect(resp.statusCode, equals(HttpStatus.OK));
-      return _snaps.findOne(where.eq('_id', _snap1['_id'])).then((_) => expect(_, isNull));
+      return _snaps.findOne(where.eq('_id', _snap1.id)).then((_) => expect(_, isNull));
     });
   });
 

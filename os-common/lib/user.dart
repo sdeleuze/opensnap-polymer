@@ -27,6 +27,11 @@ class User {
     if(roles != null && roles.isNotEmpty) json['roles'] = roles;
     return json;
   }
+  
+  Map toLink() {
+    assert(id != null);
+    return {'href':id};
+  }
 
   bool operator == (User other) {
     if (other is! User) return false;

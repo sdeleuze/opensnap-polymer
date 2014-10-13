@@ -1,9 +1,5 @@
 part of os_common;
 
-/**
- * A MongoDB connection pool
- *
- */
 class MongoPool extends ConnectionPool<Db> {
 
     String uri;

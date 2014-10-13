@@ -7,11 +7,11 @@ main() {
   test('Serialize', () {
     Snap snap = new Snap(new User.fromId('12'), [new User.fromId('34'), new User.fromId('56')], 'data:image/jpg;base64,/9j/4AAQSkZJR', 10, '54394905de442c3a8b250258');
     String json = JSON.encode(snap.toJson());
-    expect(json, equals('{"_id":"54394905de442c3a8b250258","author":{"_id":"12"},"recipients":[{"_id":"34"},{"_id":"56"}],"photo":"data:image/jpg;base64,/9j/4AAQSkZJR","duration":10}'));
+    expect(json, equals('{"_id":"54394905de442c3a8b250258","photo":"data:image/jpg;base64,/9j/4AAQSkZJR","duration":10,"_links":{"curies":[{"name":"u","href":"http://localhost:8081/user/{rel}","templated":true}],"u:author":{"href":"12"},"u:recipients":[{"href":"34"},{"href":"56"}]}}'));
   });
 
   test('Deserialize', () {
-    String json = '{"_id":"54394905de442c3a8b250258","author":{"_id":"12"},"recipients":[{"_id":"34"},{"_id":"56"}],"photo":"data:image/jpg;base64,/9j/4AAQSkZJR","duration":10}';
+    String json = '{"_id":"54394905de442c3a8b250258","photo":"data:image/jpg;base64,/9j/4AAQSkZJR","duration":10,"_links":{"curies":[{"name":"u","href":"http://localhost:8081/user/{rel}","templated":true}],"u:author":{"href":"12"},"u:recipients":[{"href":"34"},{"href":"56"}]}}';
     Snap snap = new Snap.fromJson(JSON.decode(json));
     expect('54394905de442c3a8b250258', equals(snap.id));
     expect(new User.fromId('12'), equals(snap.author));

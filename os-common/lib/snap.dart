@@ -11,14 +11,21 @@ class Snap {
   Snap([this.author, this.recipients, this.photo, this.duration, this.id = null]);
 
   factory Snap.fromJson(Map json) {
-    var author = (json['author'] == null) ? null : new User.fromJson(json['author']);
-    var recipients = (json['recipients'] == null) ? null : json['recipients'].map((_) => new User.fromJson(_)).toList();
+    var author = (json['_links'] != null && json['_links']['u:author'] != null) ? new User.fromId(json['_links']['u:author']['href']) : null;
+    var recipients = (json['_links'] != null && json['_links']['u:recipients'] != null) ? json['_links']['u:recipients'].map((_) => new User.fromId(_['href'])).toList() : null;
     return new Snap(author, recipients, json['photo'], json['duration'], json['_id']);
   }
 
   Map toJson() {
-      var jsonRecipients = recipients.map((_) => _.toJson()).toList();
-      return {'_id': id, 'author': author.toJson(), 'recipients': jsonRecipients, 'photo': photo, 'duration': duration};
+    Map json = {};
+    if(id != null) json['_id'] = id;
+    if(photo != null) json['photo'] = photo;
+    if(duration != null) json['duration'] = duration;
+    var jsonLinks = {'curies': [{ 'name': 'u', 'href': 'http://localhost:8081/user/{rel}', 'templated': true }]};
+    if(author != null && author.id != null) jsonLinks['u:author'] = author.toLink();
+    if(recipients != null && recipients.isNotEmpty) jsonLinks['u:recipients'] = recipients.map((_) => _.toLink()).toList(); 
+    if(jsonLinks.length > 1) json['_links'] = jsonLinks;
+    return json;
   }
 
   bool operator == (other) {

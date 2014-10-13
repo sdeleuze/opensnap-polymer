@@ -22,10 +22,10 @@ class SnapService {
   getById(String id) => snaps.findOne(where.eq('_id', id));
   
   @app.Route('/received/:userId')
-  received(String userId) => snaps.find(where.eq('recipients._id', userId)).toList();
+  received(String userId) => snaps.find(where.eq('_links.u:recipients.href', userId)).toList();
   
   @app.Route('/sent/:userId')
-  sent(String userId) => snaps.find(where.eq('author._id', userId)).toList();
+  sent(String userId) => snaps.find(where.eq('_links.u:author.href', userId)).toList();
       
   @app.Route('/:id', methods: const [app.DELETE])
   delete(String id) => snaps.remove(where.eq('_id', id)).then((_) => true);

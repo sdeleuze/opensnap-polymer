@@ -1,0 +1,13 @@
+body {
+  font-family: RobotoDraft, 'Helvetica Neue', Helvetica, Arial;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  padding: 16px;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+app-element {
+  margin: 0 auto;
+}

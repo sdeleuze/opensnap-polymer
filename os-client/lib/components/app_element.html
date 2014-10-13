@@ -1,0 +1,64 @@
+<link rel="import" href="../../../packages/polymer/polymer.html">
+<link rel="import" href="../../../packages/core_elements/core_drawer_panel.html">
+<link rel="import" href="../../../packages/core_elements/core_header_panel.html">
+<link rel="import" href="../../../packages/core_elements/core_toolbar.html">
+<link rel="import" href="../../../packages/core_elements/core_menu.html">
+<link rel="import" href="../../../packages/core_elements/core_item.html">
+<link rel="import" href="../../../packages/core_elements/core_icon.html">
+<link rel="import" href="../../../packages/core_elements/core_icon_button.html">
+<link rel="import" href="../../../packages/paper_elements/paper_icon_button.html">
+
+<polymer-element name="app-element">
+  <template>
+    <style shim-shadowdom>
+    
+      core-header-panel {
+        background: #FED30B;
+      }
+      core-toolbar {
+        background-color: #333333;
+        color: #f7f7f9;
+      }
+      #navheader {
+        background-color: #000000;
+      }
+      .content {
+        padding: 20px;
+      }
+      core-drawer-panel #navicon {
+        color: #f7f7f9;
+      }
+      /* drawer is always visible on a wide screen
+         so menu button isn't required */
+      core-drawer-panel:not([narrow]) #navicon {
+        display: none;
+      }
+      
+    </style>
+  
+    <core-drawer-panel id="drawerPanel">
+      <core-header-panel drawer>
+        <core-toolbar id="navheader'">
+          <span>Menu</span>
+        </core-toolbar>
+        <core-menu>
+          <core-item label="Received"></core-item>
+          <core-item label="Sent"></core-item>
+          <core-item label="Sent"></core-item>
+        </core-menu>
+      </core-header-panel>
+    
+      <core-header-panel main>
+        <core-toolbar id="mainheader">
+          <paper-icon-button id="navicon" icon=menu on-click="{{toggleMenu}}"></paper-icon-button>
+          <span flex>OpenSnap</span>
+        </core-toolbar>
+        <div class="content">
+          If drawer is hidden, press button to display drawer.
+        </div>
+      </core-header-panel>
+    </core-drawer-panel>
+    
+  </template>
+  <script type="application/dart" src="app_element.dart"></script>
+</polymer-element>

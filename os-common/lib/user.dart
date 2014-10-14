@@ -14,8 +14,9 @@ class User {
     this.roles = (roles == null) ? new List() : roles;
   }
 
-  factory User.fromJson(Map json) {
-      return new User(json['username'], json['password'], json['roles'], json['_id']);
+  factory User.fromJson(value) {
+    var json = value is String ? JSON.decode(value) : value;
+    return new User(json['username'], json['password'], json['roles'], json['_id']);
   }
 
   factory User.fromId(String id) {
@@ -40,6 +41,15 @@ class User {
     if (other is! User) return false;
     User u = other;
     return (u.id == id) && (u.username == username) && (u.password == password) && listEq(other.roles, roles);
+  }
+  
+  static List<User> fromJsonList(value) {
+    var json = value is String ? JSON.decode(value) : value;
+    if(json is Map) {
+      var list = [new User.fromJson(json)]; 
+      return list;
+    }
+    return json.map((_) => new User.fromJson(_)).toList();  
   }
 
 }

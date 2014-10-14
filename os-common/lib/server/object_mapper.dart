@@ -1,4 +1,4 @@
-part of os_common;
+part of os_common_server;
 
 class Encode {
     const Encode();

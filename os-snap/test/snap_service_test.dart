@@ -1,11 +1,11 @@
 import 'dart:io';
-import 'dart:convert';
 import 'package:di/di.dart';
 import 'package:unittest/unittest.dart';
 import 'package:redstone/server.dart' as app;
 import 'package:redstone/mocks.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 import 'package:os_common/os_common.dart';
+import 'package:os_common/os_common_server.dart';
 import 'package:os_user/os_user.dart';
 import '../lib/snap_service.dart';
 
@@ -24,7 +24,7 @@ main() {
   
   setUp(() {
     app.setupConsoleLog();
-    app.addModule(new Module()..bind(MongoPool, toValue: new MongoPool(uri)));
+    app.addModule(new Module()..bind(Db, toValue: _db));
     app.addPlugin(ObjectMapper);
     app.setUp([#os_common, #os_snap]);
     
@@ -41,7 +41,7 @@ main() {
     var req = new MockRequest('/snap/', method: app.POST, bodyType: app.JSON, body: snap.toJson());
     return app.dispatch(req).then((resp) {
       expect(resp.statusCode, equals(HttpStatus.OK));
-      snap = new Snap.fromJson(JSON.decode(resp.mockContent));
+      snap = new Snap.fromJson(resp.mockContent);
       return _snaps.findOne(where.eq('_id', snap.id)).then((_) => expect(_, isNotNull));
     });
   });
@@ -50,7 +50,7 @@ main() {
     var req = new MockRequest('/snap/${_snap1.id}');  
     return app.dispatch(req).then((resp) {
       expect(resp.statusCode, equals(HttpStatus.OK));
-      Snap snap = new Snap.fromJson(JSON.decode(resp.mockContent));
+      Snap snap = new Snap.fromJson(resp.mockContent);
       expect(snap, isNotNull);
       expect(snap.id, equals(_snap1.id));
     });
@@ -60,7 +60,7 @@ main() {
     var req = new MockRequest('/snap/${_snap1.id},${_snap2.id}');  
     return app.dispatch(req).then((resp) {
       expect(resp.statusCode, equals(HttpStatus.OK));
-      List<Snap> snaps = JSON.decode(resp.mockContent).map((_) => new Snap.fromJson(_)).toList();
+      List<Snap> snaps = Snap.fromJsonList(resp.mockContent);
       expect(snaps, isNotNull);
       expect(snaps.length, equals(2));
     });
@@ -70,7 +70,7 @@ main() {
     var req = new MockRequest('/snap/sent/${_pauline.id}');  
     return app.dispatch(req).then((resp) {
       expect(resp.statusCode, equals(HttpStatus.OK));
-      List<Snap> snaps = JSON.decode(resp.mockContent).map((_) => new Snap.fromJson(_)).toList();
+      List<Snap> snaps = Snap.fromJsonList(resp.mockContent);
       expect(snaps, isNotNull);
       expect(snaps.length, equals(1));
       expect(snaps[0].id, equals(_snap1.id));
@@ -81,7 +81,7 @@ main() {
     var req = new MockRequest('/snap/received/${_seb.id}');  
     return app.dispatch(req).then((resp) {
       expect(resp.statusCode, equals(HttpStatus.OK));
-      List<Snap> snaps = JSON.decode(resp.mockContent).map((_) => new Snap.fromJson(_)).toList();
+      List<Snap> snaps = Snap.fromJsonList(resp.mockContent);
       expect(snaps, isNotNull);
       expect(snaps.length, equals(2));
     });

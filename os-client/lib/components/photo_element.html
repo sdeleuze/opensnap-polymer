@@ -1,0 +1,71 @@
+<link rel="import" href="../../../packages/polymer/polymer.html">
+<link rel="import" href="../../../packages/paper_elements/paper_dropdown_menu.html">
+<link rel="import" href="../../../packages/paper_elements/paper_button.html">
+<link rel="import" href="../../../packages/paper_elements/paper_item.html">
+<link rel="import" href="../../../packages/paper_elements/paper_toast.html">
+
+<polymer-element name="photo-element">
+  <template>
+    <style>
+    
+      paper-dropdown-menu::shadow #dropdown {
+        background-color: #fff;
+      }
+  
+      paper-dropdown-menu {
+        background-color: inherit;
+      }
+      
+      #canvas {
+        display: none;
+      }
+  
+    </style>
+    <div hidden?="{{!visible}}">
+    
+      <paper-toast id="photoToast" text="Clic clac."></paper-toast>
+      <paper-toast id="authorizeWebcamToast" text="Please authorize OpenSnap to use you webcam before taking a photo ..."></paper-toast>
+      <paper-toast id="webcamErrorToast" text="Unknown error while getting the webcam stream!"></paper-toast>
+      <paper-toast id="durationToast" text="Please select a duration before trying to send a Snap"></paper-toast>
+      <paper-toast id="recipientToast" text="Please select a recipient before trying to send a Snap"></paper-toast>
+    
+      <div>
+        <video id="video" autoplay="true"></video>
+        <canvas id="canvas"></canvas>
+        <img id="photo" src="" alt="photo">
+      </div>
+      
+      <div>
+        Duration &nbsp;&nbsp;
+        <paper-dropdown-menu id="duration" valueattr="value" >
+          <paper-item value="1" label="1s"></paper-item>
+          <paper-item value="2" label="2s"></paper-item>
+          <paper-item value="3" label="3s"></paper-item>
+          <paper-item value="4" label="4s"></paper-item>
+          <paper-item value="5" label="5s"></paper-item>
+          <paper-item value="6" label="6s"></paper-item>
+          <paper-item value="7" label="7s"></paper-item>
+          <paper-item value="8" label="8s"></paper-item>
+          <paper-item value="9" label="9s"></paper-item>
+          <paper-item value="10" label="10s"></paper-item>
+        </paper-dropdown-menu>
+      </div>
+      
+      <div>
+        To &nbsp;&nbsp;
+        <paper-dropdown-menu id="to" valueattr="value">
+          <template repeat="{{user in users}}">
+            <paper-item value="{{user.id}}" label="{{user.username}}"></paper-item>
+          </template>
+        </paper-dropdown-menu>
+      </div>
+      
+      <div>
+        <paper-button id="take" label="Take photo" on-click="{{takePhoto}}" raised ></paper-button>
+        <paper-button id="send" label="Send" disabled="true" on-click="{{sendSnap}}" raised></paper-button>
+      </div>
+
+    </div>
+  </template>
+  <script type="application/dart" src="photo_element.dart"></script>
+</polymer-element>

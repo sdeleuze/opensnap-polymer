@@ -10,7 +10,8 @@ class Snap {
 
   Snap([this.author, this.recipients, this.photo, this.duration, this.id = null]);
 
-  factory Snap.fromJson(Map json) {
+  factory Snap.fromJson(value) {
+    var json = value is String ? JSON.decode(value) : value;
     var author = (json['_links'] != null && json['_links']['u:author'] != null) ? new User.fromId(json['_links']['u:author']['href']) : null;
     var recipients = (json['_links'] != null && json['_links']['u:recipients'] != null) ? json['_links']['u:recipients'].map((_) => new User.fromId(_['href'])).toList() : null;
     return new Snap(author, recipients, json['photo'], json['duration'], json['_id']);
@@ -34,20 +35,13 @@ class Snap {
     return ((s.id == id) && (s.author == author) && listEq(s.recipients, recipients) && (s.photo == photo) && (s.duration == duration));
   }
   
-  Future<Snap> fetch() => http.get(Uri.parse('${User.BASE_URL}${id}'),headers: {'Accept': 'application/json'}).then((response) {
-    author = new User.fromJson(JSON.decode(response.body));
-    return this;
-  });
-  
-  static Future<List<Snap>> fetchAll(List<Snap> snaps) {
-    List authorIds =  snaps.map((snap) => snap.author.id).toList();
-    return http.get(Uri.parse('${User.BASE_URL}${authorIds.join(',')}'),headers: {'Accept': 'application/json'}).then((response) {
-      List jsonUsers = JSON.decode(response.body);
-      return snaps.map((snap) {
-        snap.author = new User.fromJson(jsonUsers.singleWhere((jsonUser) => jsonUser['_id'] == snap.author.id));
-        return snap;
-      }).toList();
-    });    
-  }
+  static List<Snap> fromJsonList(value) {
+      var json = value is String ? JSON.decode(value) : value;
+      if(json is Map) {
+        var list = [new Snap.fromJson(json)];
+        return list;
+      }
+      return json.map((_) => new Snap.fromJson(_)).toList();  
+    }
       
 }

@@ -1,0 +1,40 @@
+<link rel="import" href="../../../packages/polymer/polymer.html"><link rel="import" href="../../../packages/paper_elements/paper_toast.html">
+<link rel="import" href="../../../packages/paper_elements/paper_dialog.html">
+<link rel="import" href="../../../packages/paper_elements/paper_progress.html">
+
+<polymer-element name="received-element">
+  <template>
+    <style>
+      paper-dialog {
+        background-color: #f7f7f9;
+      }
+      paper-progress {
+        width: 100%;
+      }
+      .view-snap {
+        cursor:pointer;
+      }
+    </style>
+    
+    <div hidden?="{{!visible}}">
+    
+      <paper-dialog id="snap-dialog" transition="paper-dialog-transition-center" autoCloseDisabled="true">
+        <div>
+          <paper-progress id="progress" value="{{progressValue}}" max="{{progressMaxValue}}"></paper-progress>
+        </div>
+        <div>
+          <img id="photo" _src="{{data}}" />
+        </div>
+      </paper-dialog>
+    
+      <h4>Snaps received!</h4>
+      <span hidden?="{{snaps.isNotEmpty}}">No Snap received yet!</span>
+        <ul>
+          <template repeat="{{snap in snaps}}">
+            <li class="view-snap" snap-id="{{snap.id}}" on-click="{{viewSnap}}">Snap <b>{{snap.id}}</b> to <b>{{snap.recipients.first.username}}</b> with <b>{{snap.duration}}s</b> duration</li>
+          </template>
+        </ul>
+    </div>
+  </template>
+  <script type="application/dart" src="received_element.dart"></script>
+</polymer-element>

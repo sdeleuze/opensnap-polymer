@@ -1,14 +1,11 @@
 name: os_snap
 version: 0.1.0
 dependencies:
-  collection: any
-  mongo_dart: any
-  redstone: any
-  connection_pool: any
-  di: any
+  mongo_dart: '>=0.1.44 <0.2.0'
+  redstone: '>=0.5.16 <0.6.0'
   os_common:
     path: ../os-common
 dev_dependencies:
-  unittest: any
+  unittest: '>=0.11.0+5 <0.12.0'
   os_user:
     path: ../os-user

@@ -1,0 +1,17 @@
+<link rel="import" href="../../../packages/polymer/polymer.html">
+
+<polymer-element name="sent-element">
+  <template>
+    <div hidden?="{{!visible}}">
+      <h4>Snaps sent waiting to be viewed ...</h4>
+      <span hidden?="{{snaps.isNotEmpty}}">No Snap sent yet!</span>
+        <ul>
+          <template repeat="{{snap in snaps}}">
+            <li>Snap <b>{{snap.id}}</b> to <b>{{snap.recipients.first.username}}</b> with <b>{{snap.duration}}s</b> duration</li>
+          </template>
+        </ul>
+    </div>
+    
+  </template>
+  <script type="application/dart" src="sent_element.dart"></script>
+</polymer-element>

@@ -3,6 +3,7 @@ library os_snap;
 import 'package:redstone/server.dart' as app;
 import 'package:mongo_dart/mongo_dart.dart';
 import 'package:os_common/os_common.dart';
+import 'package:os_common/os_common_server.dart';
 
 @app.Group('/snap')
 class SnapService {

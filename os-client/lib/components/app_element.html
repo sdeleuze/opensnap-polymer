@@ -43,6 +43,7 @@
     
     <paper-toast id="sendSnapStartToast" text="Start sending your Snap"></paper-toast>
     <paper-toast id="sendSnapCompletedToast" text="You Snap has been sent"></paper-toast>
+    <paper-toast id="snapReceivedToast" text="You have received a new Snap!"></paper-toast>
       
     <core-drawer-panel id="drawerPanel">
       <core-header-panel drawer>
@@ -63,7 +64,7 @@
         </core-toolbar>
         <div class="content">
           <photo-element id="photoElement" visible="{{visibleContent == 'Photo'}}" users={{users}} on-send-snap={{sendSnap}}></photo-element>
-          <received-element visible="{{visibleContent == 'Received'}}" snaps={{snapSent}} on-delete-snap={{deleteSnap}}></received-element>
+          <received-element visible="{{visibleContent == 'Received'}}" snaps={{snapReceived}} on-delete-snap={{deleteSnap}}></received-element>
           <sent-element visible="{{visibleContent == 'Sent'}}" snaps={{snapSent}}></sent-element>
         </div>
       </core-header-panel>

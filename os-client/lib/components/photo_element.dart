@@ -74,10 +74,10 @@ class PhotoElement extends PolymerElement {
         return;
       }
       int duration = int.parse(this.$['duration'].selected);
-      // TODO Update whith the authenticate user
-      User author = users.first;
+      // TODO Update whith the authenticated user
+      User currentUser = users.first;
       User recipient =  new User.fromId(this.$['to'].selected);
-      fire('send-snap', detail: new Snap(author, [recipient], _data, duration));
+      fire('send-snap', detail: new Snap(currentUser, [recipient], _data, duration));
     }
   
 }

@@ -15,14 +15,22 @@ class AppElement extends PolymerElement {
   
   UserSync _userSync = new UserSync();
   SnapSync _snapSync = new SnapSync();
+  StompListener _stompListener = new StompListener();
   
   AppElement.created() : super.created() {
     _userSync.getAll().then((_) {
       users.addAll(_); 
-      // TODO Update whith the authenticate user
-      _snapSync.getSent(users.first).then((_) => snapSent.addAll(_));
-      _snapSync.getReceived(users.first).then((_) => snapReceived.addAll(_));
+      // TODO Update whith the authenticated user
+      User currentUser = users.first;
+      _snapSync.getSent(currentUser).then((_) => snapSent.addAll(_));
+      _snapSync.getReceived(currentUser).then((_) => snapReceived.addAll(_));
+      _stompListener.subscribeSnapInbox(currentUser, onCreated);
     });
+  }
+  
+  void onCreated(Snap snap) {
+    snapReceived.add(snap);
+    this.$['snapReceivedToast'].show();
   }
   
   void toggleMenu() {

@@ -40,7 +40,7 @@ main() {
     Snap snap = new Snap(_seb, [_pauline, _baptiste], 'data:image/jpg;base64,/9j/4AAQSkZJR', 4);
     var req = new MockRequest('/snap/', method: app.POST, bodyType: app.JSON, body: snap.toJson());
     return app.dispatch(req).then((resp) {
-      expect(resp.statusCode, equals(HttpStatus.OK));
+      expect(resp.statusCode, equals(HttpStatus.CREATED));
       snap = new Snap.fromJson(resp.mockContent);
       return _snaps.findOne(where.eq('_id', snap.id)).then((_) => expect(_, isNotNull));
     });
@@ -90,7 +90,7 @@ main() {
   test('Delete by id', () {
     var req = new MockRequest('/snap/${_snap1.id}', method: app.DELETE);  
     return app.dispatch(req).then((resp) {
-      expect(resp.statusCode, equals(HttpStatus.OK));
+      expect(resp.statusCode, equals(HttpStatus.NO_CONTENT));
       return _snaps.findOne(where.eq('_id', _snap1.id)).then((_) => expect(_, isNull));
     });
   });

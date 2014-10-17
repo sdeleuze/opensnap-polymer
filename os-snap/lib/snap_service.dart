@@ -23,7 +23,7 @@ class SnapService {
     });
   }
 
-  @app.Route('/', methods: const [app.POST])
+  @app.Route('/', methods: const [app.POST], statusCode: HttpStatus.CREATED)
   create(@Decode() Snap snap) {
     if(snap.id == null) {
       snap.id = new ObjectId().toHexString();
@@ -51,7 +51,7 @@ class SnapService {
   @app.Route('/sent/:userId')
   sent(String userId) => _snaps.find(where.eq('_links.u:author.href', userId)).toList();
       
-  @app.Route('/:id', methods: const [app.DELETE])
+  @app.Route('/:id', methods: const [app.DELETE], statusCode: HttpStatus.NO_CONTENT)
   delete(String id) => _snaps.remove(where.eq('_id', id)).then((_) => true);
 
 }

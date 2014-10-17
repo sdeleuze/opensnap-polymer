@@ -35,7 +35,7 @@ main() {
   test('Create', () {
     var req = new MockRequest('/user/', method: app.POST, bodyType: app.JSON, body: new User('Bob').toJson());
     return app.dispatch(req).then((resp) {
-      expect(resp.statusCode, equals(HttpStatus.OK));
+      expect(resp.statusCode, equals(HttpStatus.CREATED));
       User bob = new User.fromJson(resp.mockContent);
       expect(bob, isNotNull);
       expect(bob.id, isNotNull);
@@ -86,7 +86,7 @@ main() {
   test('Delete by id', () {
     var req = new MockRequest('/user/${_pauline.id}', method: app.DELETE);
     return app.dispatch(req).then((resp) {
-      expect(resp.statusCode, equals(HttpStatus.OK));
+      expect(resp.statusCode, equals(HttpStatus.NO_CONTENT));
       return _users.findOne(where.eq('_id', _pauline.id)).then((_) => expect(_, isNull));
     });
   });

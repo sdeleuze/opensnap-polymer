@@ -8,7 +8,7 @@ class UserService {
   @app.Route('/')
   list() => users.find().toList();
 
-  @app.Route('/', methods: const [app.POST])
+  @app.Route('/', methods: const [app.POST], statusCode: HttpStatus.CREATED)
   create(@Decode() User user) {
     if(user.id == null) {
       user.id = new ObjectId().toHexString();
@@ -30,7 +30,7 @@ class UserService {
   getByName(String name) => users.findOne(where.eq('username', name));
 
 
-  @app.Route('/:id', methods: const [app.DELETE])
-  delete(String id) => users.remove(where.eq('_id', id)).then((_) => true);
+  @app.Route('/:id', methods: const [app.DELETE], statusCode: HttpStatus.NO_CONTENT)
+  delete(String id) => users.remove(where.eq('_id', id));
 
 }

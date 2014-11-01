@@ -6,8 +6,10 @@
 <link rel="import" href="../../../packages/core_elements/core_item.html">
 <link rel="import" href="../../../packages/core_elements/core_icon.html">
 <link rel="import" href="../../../packages/core_elements/core_icon_button.html">
+<link rel="import" href="../../../packages/core_elements/core_animated_pages.html">
 <link rel="import" href="../../../packages/paper_elements/paper_icon_button.html">
 <link rel="import" href="../../../packages/paper_elements/paper_toast.html">
+
 
 <link rel="import" href="photo_element.html">
 <link rel="import" href="sent_element.html">
@@ -50,10 +52,10 @@
         <core-toolbar id="navheader'">
           <span>Menu</span>
         </core-toolbar>
-        <core-menu selected="{{selectedMenuItem(visibleContent)}}">
-          <core-item label="Photo" on-click="{{onMenuItemClick}}"></core-item>
-          <core-item label="Received" on-click="{{onMenuItemClick}}"></core-item>
-          <core-item label="Sent" on-click="{{onMenuItemClick}}"></core-item>
+        <core-menu selected="{{selected}}">
+          <core-item label="Photo"></core-item>
+          <core-item label="Received"></core-item>
+          <core-item label="Sent"></core-item>
         </core-menu>
       </core-header-panel>
     
@@ -62,11 +64,11 @@
           <paper-icon-button id="navicon" icon=menu on-click="{{toggleMenu}}"></paper-icon-button>
           <span flex>OpenSnap</span>
         </core-toolbar>
-        <div class="content">
-          <photo-element id="photoElement" visible="{{visibleContent == 'Photo'}}" users={{users}} on-send-snap={{sendSnap}}></photo-element>
-          <received-element visible="{{visibleContent == 'Received'}}" snaps={{snapReceived}} on-delete-snap={{deleteSnap}}></received-element>
-          <sent-element visible="{{visibleContent == 'Sent'}}" snaps={{snapSent}}></sent-element>
-        </div>
+        <core-animated-pages selected="{{selected}}">
+          <photo-element id="photoElement" users={{users}} on-send-snap={{sendSnap}}></photo-element>
+          <received-element snaps={{snapReceived}} on-delete-snap={{deleteSnap}}></received-element>
+          <sent-element snaps={{snapSent}}></sent-element>
+        </core-animated-pages>
       </core-header-panel>
     </core-drawer-panel>
     

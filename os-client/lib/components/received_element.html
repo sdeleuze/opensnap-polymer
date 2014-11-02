@@ -15,9 +15,9 @@
         cursor:pointer;
       }
     </style>
-    
+
     <div hidden?="{{!visible}}">
-    
+
       <paper-dialog id="snap-dialog" transition="paper-dialog-transition-center" autoCloseDisabled="true">
         <div>
           <paper-progress id="progress" value="{{progressValue}}" max="{{progressMaxValue}}"></paper-progress>
@@ -26,12 +26,12 @@
           <img id="photo" _src="{{data}}" />
         </div>
       </paper-dialog>
-    
+
       <h4>Snaps received!</h4>
       <span hidden?="{{snaps.isNotEmpty}}">No Snap received yet!</span>
         <ul>
           <template repeat="{{snap in snaps}}">
-            <li class="view-snap" snap-id="{{snap.id}}" on-click="{{viewSnap}}">Snap <b>{{snap.id}}</b> to <b>{{snap.recipients.first.username}}</b> with <b>{{snap.duration}}s</b> duration</li>
+            <li class="view-snap" snap-id="{{snap.id}}" on-click="{{viewSnap}}">Snap <b>{{snap.id}}</b> to <b>{{snap.recipients.first.fullname}}</b> with <b>{{snap.duration}}s</b> duration</li>
           </template>
         </ul>
     </div>

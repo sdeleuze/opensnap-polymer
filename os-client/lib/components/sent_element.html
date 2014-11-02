@@ -7,11 +7,11 @@
       <span hidden?="{{snaps.isNotEmpty}}">No Snap sent yet!</span>
         <ul>
           <template repeat="{{snap in snaps}}">
-            <li>Snap <b>{{snap.id}}</b> to <b>{{snap.recipients.first.username}}</b> with <b>{{snap.duration}}s</b> duration</li>
+            <li>Snap <b>{{snap.id}}</b> to <b>{{snap.recipients.first.fullname}}</b> with <b>{{snap.duration}}s</b> duration</li>
           </template>
         </ul>
     </div>
-    
+
   </template>
   <script type="application/dart" src="sent_element.dart"></script>
 </polymer-element>

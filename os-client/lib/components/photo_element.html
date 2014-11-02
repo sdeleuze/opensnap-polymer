@@ -7,34 +7,34 @@
 <polymer-element name="photo-element">
   <template>
     <style>
-    
+
       paper-dropdown-menu::shadow #dropdown {
         background-color: #fff;
       }
-  
+
       paper-dropdown-menu {
         background-color: inherit;
       }
-      
+
       #canvas {
         display: none;
       }
-  
+
     </style>
     <div hidden?="{{!visible}}">
-    
+
       <paper-toast id="photoToast" text="Clic clac."></paper-toast>
       <paper-toast id="authorizeWebcamToast" text="Please authorize OpenSnap to use you webcam before taking a photo ..."></paper-toast>
       <paper-toast id="webcamErrorToast" text="Unknown error while getting the webcam stream!"></paper-toast>
       <paper-toast id="durationToast" text="Please select a duration before trying to send a Snap"></paper-toast>
       <paper-toast id="recipientToast" text="Please select a recipient before trying to send a Snap"></paper-toast>
-    
+
       <div>
         <video id="video" autoplay="true"></video>
         <canvas id="canvas"></canvas>
         <img id="photo" src="" alt="photo">
       </div>
-      
+
       <div>
         Duration &nbsp;&nbsp;
         <paper-dropdown-menu id="duration" valueattr="value" >
@@ -50,16 +50,16 @@
           <paper-item value="10" label="10s"></paper-item>
         </paper-dropdown-menu>
       </div>
-      
+
       <div>
         To &nbsp;&nbsp;
         <paper-dropdown-menu id="to" valueattr="value">
           <template repeat="{{user in users}}">
-            <paper-item value="{{user.id}}" label="{{user.username}}"></paper-item>
+            <paper-item value="{{user.id}}" label="{{user.fullname}}"></paper-item>
           </template>
         </paper-dropdown-menu>
       </div>
-      
+
       <div>
         <paper-button id="take" label="Take photo" on-click="{{takePhoto}}" raised ></paper-button>
         <paper-button id="send" label="Send" disabled="true" on-click="{{sendSnap}}" raised></paper-button>

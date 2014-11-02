@@ -27,13 +27,13 @@ class User {
 
   String get fullname => '$firstname $lastname';
 
-  Map toJson() {
+  Map toJson({withPassword: false}) {
     Map json = {};
     if(id != null) json['_id'] = id;
     if(username != null) json['username'] = username;
     if(firstname != null) json['firstname'] = firstname;
     if(lastname != null) json['lastname'] = lastname;
-    if(password != null) json['password'] = password;
+    if(password != null && withPassword) json['password'] = password;
     if(roles != null && roles.isNotEmpty) json['roles'] = roles;
     return json;
   }

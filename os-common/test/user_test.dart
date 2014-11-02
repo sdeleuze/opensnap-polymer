@@ -7,8 +7,14 @@ main() {
   test('Serialize', () {
     User user = new User('sdeleuze', 'Sébastien', 'Deleuze', 'azerty', ['USER', 'ADMIN'], "54394905de442c3a8b250257");
     String json = JSON.encode(user.toJson());
-    expect(json, equals('{"_id":"54394905de442c3a8b250257","username":"sdeleuze","firstname":"Sébastien","lastname":"Deleuze","password":"azerty","roles":["USER","ADMIN"]}'));
+    expect(json, equals('{"_id":"54394905de442c3a8b250257","username":"sdeleuze","firstname":"Sébastien","lastname":"Deleuze","roles":["USER","ADMIN"]}'));
   });
+  
+  test('Serialize with password', () {
+      User user = new User('sdeleuze', 'Sébastien', 'Deleuze', 'azerty', ['USER', 'ADMIN'], "54394905de442c3a8b250257");
+      String json = JSON.encode(user.toJson(withPassword: true));
+      expect(json, equals('{"_id":"54394905de442c3a8b250257","username":"sdeleuze","firstname":"Sébastien","lastname":"Deleuze","password":"azerty","roles":["USER","ADMIN"]}'));
+    });
 
   test('Deserialize', () {
     String json = '{"_id":"54394905de442c3a8b250257","username":"sdeleuze","firstname":"Sébastien","lastname":"Deleuze","password":"azerty","roles":["USER","ADMIN"]}';

@@ -12,9 +12,9 @@ const uri = 'mongodb://localhost/test';
 Db _db = new Db(uri);
 DbCollection _users = _db.collection('users');
 
-User _pauline = new User('Pauline', 'azerty', ['USER'], '543b80c33786c930f70e3960');
-User _seb = new User('Seb', 'qwerty', ['USER', 'ADMIN'], '543b80c33786c930f70e3961');
-User _baptiste = new User('Baptiste', '12345', ['USER'], '543b80c33786c930f70e3962');
+User _pauline = new User('pauphan', 'Pauline', 'Auphan', 'azerty', ['USER'], '543b80c33786c930f70e3960');
+User _seb = new User('sdeleuze', 'Sébastien', 'Deleuze', 'qwerty', ['USER', 'ADMIN'], '543b80c33786c930f70e3961');
+User _baptiste = new User('bmeurant', 'Baptiste', 'Meurant', '12345', ['USER'], '543b80c33786c930f70e3962');
 
 main() {
 

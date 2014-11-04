@@ -6,7 +6,7 @@
 <link rel="import" href="../../../packages/core_elements/core_item.html">
 <link rel="import" href="../../../packages/core_elements/core_icon.html">
 <link rel="import" href="../../../packages/core_elements/core_icon_button.html">
-<link rel="import" href="../../../packages/core_elements/core_animated_pages.html">
+<link rel="import" href="../../../packages/core_elements/core_pages.html">
 <link rel="import" href="../../../packages/paper_elements/paper_icon_button.html">
 <link rel="import" href="../../../packages/paper_elements/paper_toast.html">
 
@@ -64,11 +64,11 @@
           <paper-icon-button id="navicon" icon=menu on-click="{{toggleMenu}}"></paper-icon-button>
           <span flex>OpenSnap</span>
         </core-toolbar>
-        <core-animated-pages selected="{{selected}}">
+        <core-pages selected="{{selected}}">
           <photo-element id="photoElement" users={{users}} on-send-snap={{sendSnap}}></photo-element>
           <received-element snaps={{snapReceived}} on-delete-snap={{deleteSnap}}></received-element>
           <sent-element snaps={{snapSent}}></sent-element>
-        </core-animated-pages>
+        </core-pages>
       </core-header-panel>
     </core-drawer-panel>
     

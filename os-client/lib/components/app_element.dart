@@ -1,5 +1,6 @@
 library app_element;
 
+import 'dart:js';
 import 'package:polymer/polymer.dart';
 import 'package:core_elements/core_drawer_panel.dart';
 import 'package:paper_elements/paper_dropdown_menu.dart';
@@ -67,7 +68,10 @@ class AppElement extends PolymerElement {
   }
   
   void onSelectUser(event, details, target) {
-    if(target.selected != null) {
+    // Improve this not very nice syntax when https://code.google.com/p/dart/issues/detail?id=19315
+    // will be fixed
+    var isSelected = new JsObject.fromBrowserObject(event)['detail']['isSelected'];
+    if(target.selected != null && isSelected) {
       currentUser = users.singleWhere((_) => _.id == target.selected);
       changeUser();
     }

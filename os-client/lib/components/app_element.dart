@@ -57,12 +57,12 @@ class AppElement extends PolymerElement {
   }
   
   void sendSnap(event, details, target) {
-    // this.$['sendSnapStartToast'].show();
+    this.$['sendSnapStartToast'].show();
     Snap snap = details;
     _snapSync.send(snap).then((_) {
       snapSent.add(_);
       selected = _SENT;
-      //this.$['sendSnapCompletedToast'].show();
+      this.$['sendSnapCompletedToast'].show();
       this.$['photoElement'].reset();
     });
   }

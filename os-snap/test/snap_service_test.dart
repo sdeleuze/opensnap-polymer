@@ -6,7 +6,7 @@ import 'package:redstone/mocks.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 import 'package:os_common/os_common.dart';
 import 'package:os_common/os_common_server.dart';
-import 'package:os_user/os_user.dart';
+import 'package:os_snap/os_snap.dart';
 
 const uri = 'mongodb://localhost/test';
 Db _db = new Db(uri);

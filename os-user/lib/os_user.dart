@@ -1,5 +1,7 @@
 library os_user;
 
+import 'dart:io';
+
 import 'package:redstone/server.dart' as app;
 import 'package:mongo_dart/mongo_dart.dart';
 

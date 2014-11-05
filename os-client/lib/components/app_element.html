@@ -18,7 +18,6 @@
 <polymer-element name="app-element">
   <template>
     <style shim-shadowdom>
-    
       core-header-panel {
         background: #FED30B;
       }
@@ -39,6 +38,16 @@
          so menu button isn't required */
       core-drawer-panel:not([narrow]) #navicon {
         display: none;
+      }
+      paper-dropdown-menu::shadow #dropdown {
+        background-color: #333333;
+        color: #f7f7f9;
+      }
+      paper-dropdown-menu::shadow #control {
+        color: #f7f7f9;
+      }
+      paper-dropdown-menu {
+        background-color: inherit;
       }
       
     </style>
@@ -63,9 +72,14 @@
         <core-toolbar id="mainheader">
           <paper-icon-button id="navicon" icon=menu on-click="{{toggleMenu}}"></paper-icon-button>
           <span flex>OpenSnap</span>
+          <paper-dropdown-menu id="currentUserMenu" valueattr="value" on-core-select="{{onSelectUser}}">
+            <template repeat="{{user in users}}">
+              <paper-item value="{{user.id}}" label="{{user.fullname}}"></paper-item>
+            </template>
+          </paper-dropdown-menu>
         </core-toolbar>
         <core-pages selected="{{selected}}">
-          <photo-element id="photoElement" users={{users}} on-send-snap={{sendSnap}}></photo-element>
+          <photo-element id="photoElement" users={{users}} currentuser="{{currentUser}}" on-send-snap={{sendSnap}}></photo-element>
           <received-element snaps={{snapReceived}} on-delete-snap={{deleteSnap}}></received-element>
           <sent-element snaps={{snapSent}}></sent-element>
         </core-pages>

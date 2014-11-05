@@ -7,7 +7,6 @@ import 'package:mongo_dart/mongo_dart.dart';
 import 'package:os_common/os_common.dart';
 import 'package:os_common/os_common_server.dart';
 import 'package:os_user/os_user.dart';
-import '../lib/os_snap.dart';
 
 const uri = 'mongodb://localhost/test';
 Db _db = new Db(uri);

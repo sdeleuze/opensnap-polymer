@@ -11,4 +11,4 @@ import 'package:stompdart/socketadapter.dart';
 import 'package:os_common/os_common.dart';
 import 'package:os_common/os_common_server.dart';
 
-part 'Snap_service.dart';
+part 'snap_service.dart';

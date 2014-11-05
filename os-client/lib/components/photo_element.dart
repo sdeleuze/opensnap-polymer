@@ -10,6 +10,7 @@ class PhotoElement extends PolymerElement {
   
   @published bool visible = true;
   @published ObservableList<User> users;
+  @published User currentuser;
   
   VideoElement video;
   CanvasElement canvas;
@@ -46,8 +47,6 @@ class PhotoElement extends PolymerElement {
   }
   
   void canPlay() {
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
     isReady = true;
   }
   
@@ -56,6 +55,8 @@ class PhotoElement extends PolymerElement {
         this.$['authorizeWebcamToast'].show();
         return;
       }
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
       canvas.context2D.drawImage(video, 0, 0);
       _data = canvas.toDataUrl('image/png');
       photo.src = _data;  
@@ -75,9 +76,8 @@ class PhotoElement extends PolymerElement {
       }
       int duration = int.parse(this.$['duration'].selected);
       // TODO Update whith the authenticated user
-      User currentUser = users.first;
       User recipient =  new User.fromId(this.$['to'].selected);
-      fire('send-snap', detail: new Snap(currentUser, [recipient], _data, duration));
+      fire('send-snap', detail: new Snap(currentuser, [recipient], _data, duration));
     }
   
 }

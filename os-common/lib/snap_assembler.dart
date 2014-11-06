@@ -1,14 +1,14 @@
 part of os_common;
 
 class SnapAssembler {
-  
+
   // http.Client or ClientBrowser instance
   var _client;
-  
+
   SnapAssembler(this._client);
-  
+
   Future<Snap> fetch(Snap snap) {
-    List userIds =  snap.recipients.map((user) => user.id).toList();
+    List userIds = snap.recipients.map((user) => user.id).toList();
     userIds.add(snap.author.id);
     return _client.get(Uri.parse('${User.BASE_URL}${userIds.join(',')}'),headers: {'Accept': 'application/json'}).then((response) {
       List<User> users = User.fromJsonList(response.body);
@@ -17,7 +17,7 @@ class SnapAssembler {
       return snap;
     });
   }
-    
+
   Future<List<Snap>> fetchAll(List<Snap> snaps) {
     Set userIds = new Set();
     snaps.forEach((snap) {
@@ -33,5 +33,5 @@ class SnapAssembler {
       return snaps;
     });
   }
-  
+
 }

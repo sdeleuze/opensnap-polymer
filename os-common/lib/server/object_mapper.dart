@@ -1,11 +1,11 @@
 part of os_common_server;
 
 class Encode {
-    const Encode();
+  const Encode();
 }
 
 class Decode {
-    const Decode();
+  const Decode();
 }
 
 ObjectMapper(app.Manager manager) {

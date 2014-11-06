@@ -22,19 +22,19 @@ class User {
   }
 
   factory User.fromId(String id) {
-      return new User(null, null, null, null, [], id);
+    return new User(null, null, null, null, [], id);
   }
 
   String get fullname => '$firstname $lastname';
 
   Map toJson({withPassword: false}) {
     Map json = {};
-    if(id != null) json['_id'] = id;
-    if(username != null) json['username'] = username;
-    if(firstname != null) json['firstname'] = firstname;
-    if(lastname != null) json['lastname'] = lastname;
-    if(password != null && withPassword) json['password'] = password;
-    if(roles != null && roles.isNotEmpty) json['roles'] = roles;
+    if (id != null) json['_id'] = id;
+    if (username != null) json['username'] = username;
+    if (firstname != null) json['firstname'] = firstname;
+    if (lastname != null) json['lastname'] = lastname;
+    if (password != null && withPassword) json['password'] = password;
+    if (roles != null && roles.isNotEmpty) json['roles'] = roles;
     return json;
   }
 
@@ -43,7 +43,7 @@ class User {
     return {'href':id};
   }
 
-  bool operator == (User other) {
+  bool operator ==(User other) {
     if (other is! User) return false;
     User u = other;
     return (u.id == id) && (u.username == username) && (u.password == password) && listEq(other.roles, roles);
@@ -51,7 +51,7 @@ class User {
 
   static List<User> fromJsonList(value) {
     var json = value is String ? JSON.decode(value) : value;
-    if(json is Map) {
+    if (json is Map) {
       var list = [new User.fromJson(json)];
       return list;
     }

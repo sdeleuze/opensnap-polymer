@@ -29,19 +29,19 @@ class Snap {
     return json;
   }
 
-  bool operator == (other) {
+  bool operator ==(other) {
     if (other is! Snap) return false;
     Snap s = other;
     return ((s.id == id) && (s.author == author) && listEq(s.recipients, recipients) && (s.photo == photo) && (s.duration == duration));
   }
-  
+
   static List<Snap> fromJsonList(value) {
     var json = value is String ? JSON.decode(value) : value;
-    if(json is Map) {
+    if (json is Map) {
       var list = [new Snap.fromJson(json)];
       return list;
     }
-    return json.map((_) => new Snap.fromJson(_)).toList();  
+    return json.map((_) => new Snap.fromJson(_)).toList();
   }
-      
+
 }

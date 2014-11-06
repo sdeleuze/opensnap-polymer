@@ -10,7 +10,7 @@ main() {
 
   app.setupConsoleLog();
   Db db = new Db('mongodb://localhost/snaps');
-    db.open().then((_) {
+  db.open().then((_) {
     app.addModule(new Module()..bind(Db, toValue: db));
     app.addPlugin(ObjectMapper);
     app.start(port: 8082);

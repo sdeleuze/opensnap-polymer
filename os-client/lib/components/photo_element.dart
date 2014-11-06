@@ -1,25 +1,27 @@
 library photo_element;
 
 import 'dart:html';
-import 'package:polymer/polymer.dart';
+
 import 'package:paper_elements/paper_button.dart';
+import 'package:polymer/polymer.dart';
+
 import 'package:os_common/os_common.dart';
 
 @CustomTag('photo-element')
 class PhotoElement extends PolymerElement {
-  
+
   @published bool visible = true;
   @published ObservableList<User> users;
   @published User currentuser;
-  
+
   VideoElement video;
   CanvasElement canvas;
   ImageElement photo;
   PaperButton sendButton, takePhotoButton;
   bool isReady = false;
-  
+
   String _data;
-  
+
   PhotoElement.created() : super.created() {
     Polymer.onReady.then((_) {
       video = this.$['video'];
@@ -33,51 +35,51 @@ class PhotoElement extends PolymerElement {
         if (video.readyState >= 3) {
           canPlay();
         } else {
-          video.onCanPlay.listen((e) => canPlay()).onError((_) => this.$['webcamErrorToast'].show());
+          video.onCanPlay.listen(
+              (e) => canPlay()).onError((_) => this.$['webcamErrorToast'].show());
         }
       });
     });
   }
-  
+
   void reset() {
     photo.hidden = true;
     video.hidden = false;
     sendButton.disabled = true;
     _data = '';
   }
-  
+
   void canPlay() {
     isReady = true;
   }
-  
-  void takePhoto() {
-      if(!isReady) {
-        this.$['authorizeWebcamToast'].show();
-        return;
-      }
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
-      canvas.context2D.drawImage(video, 0, 0);
-      _data = canvas.toDataUrl('image/png');
-      photo.src = _data;  
-      video.hidden = true;
-      photo.hidden = false;
-      sendButton.disabled = false;
-    }
 
-    void sendSnap(event, detail, target) {
-      if(this.$['duration'].selected == null) {
-        this.$['durationToast'].show();
-        return;
-      }
-      if(this.$['to'].selected == null) {
-        this.$['recipientToast'].show();
-        return;
-      }
-      int duration = int.parse(this.$['duration'].selected);
-      // TODO Update whith the authenticated user
-      User recipient =  new User.fromId(this.$['to'].selected);
-      fire('send-snap', detail: new Snap(currentuser, [recipient], _data, duration));
+  void takePhoto() {
+    if (!isReady) {
+      this.$['authorizeWebcamToast'].show();
+      return;
     }
-  
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    canvas.context2D.drawImage(video, 0, 0);
+    _data = canvas.toDataUrl('image/png');
+    photo.src = _data;
+    video.hidden = true;
+    photo.hidden = false;
+    sendButton.disabled = false;
+  }
+
+  void sendSnap(event, detail, target) {
+    if (this.$['duration'].selected == null) {
+      this.$['durationToast'].show();
+      return;
+    }
+    if (this.$['to'].selected == null) {
+      this.$['recipientToast'].show();
+      return;
+    }
+    int duration = int.parse(this.$['duration'].selected);
+    // TODO Update whith the authenticated user
+    User recipient = new User.fromId(this.$['to'].selected);
+    fire('send-snap', detail: new Snap(currentuser, [recipient], _data, duration));
+  }
 }

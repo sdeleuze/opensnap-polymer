@@ -1,20 +1,22 @@
 library received_element;
 
-import 'package:polymer/polymer.dart';
-import 'package:os_common/os_common.dart';
 import 'dart:async';
+
+import 'package:polymer/polymer.dart';
+
+import 'package:os_common/os_common.dart';
 
 @CustomTag('received-element')
 class ReceivedElement extends PolymerElement {
-  
+
   @published bool visible = true;
   @published ObservableList<Snap> snaps;
   @observable String data = "";
   @observable int progressValue = 0;
   @observable int progressMaxValue = 0;
-  
+
   ReceivedElement.created() : super.created();
-  
+
   void viewSnap(event, details, target) {
     String snapId = target.attributes['snap-id'];
     Snap snap = snaps.singleWhere((_) => _.id == snapId);
@@ -32,5 +34,5 @@ class ReceivedElement extends PolymerElement {
       progressValue = progressValue + 10;
     });
   }
-  
+
 }

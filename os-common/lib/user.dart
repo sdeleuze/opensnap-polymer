@@ -11,6 +11,7 @@ class User {
   final String password;
   final List<String> roles;
 
+  // TODO: use named arguments for this type of ctor.
   User([this.username = null, this.firstname = null, this.lastname = null, this.password = null, List roles, this.id = null]) :
     this.roles = (roles == null) ? new List() : roles;
 

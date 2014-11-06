@@ -1,12 +1,13 @@
 import 'dart:io';
+
 import 'package:di/di.dart';
-import 'package:unittest/unittest.dart';
-import 'package:redstone/server.dart' as app;
-import 'package:redstone/mocks.dart';
 import 'package:mongo_dart/mongo_dart.dart';
+import 'package:redstone/mocks.dart';
+import 'package:redstone/server.dart' as app;
+import 'package:unittest/unittest.dart';
+
 import 'package:os_common/os_common.dart';
 import 'package:os_common/os_common_server.dart';
-import 'package:os_user/os_user.dart';
 
 const uri = 'mongodb://localhost/test';
 Db _db = new Db(uri);
@@ -16,8 +17,7 @@ User _pauline = new User('pauphan', 'Pauline', 'Auphan', 'azerty', ['USER'], '54
 User _seb = new User('sdeleuze', 'Sébastien', 'Deleuze', 'qwerty', ['USER', 'ADMIN'], '543b80c33786c930f70e3961');
 User _baptiste = new User('bmeurant', 'Baptiste', 'Meurant', '12345', ['USER'], '543b80c33786c930f70e3962');
 
-main() {
-
+void main() {
   setUp(() {
     app.setupConsoleLog();
     app.addModule(new Module()..bind(Db, toValue: _db));
@@ -62,9 +62,9 @@ main() {
       expect(user.id, equals(_pauline.id));
     });
   });
-  
+
   test('Get by ids', () {
-    var req = new MockRequest('/user/${_pauline.id},${_seb.id}');  
+    var req = new MockRequest('/user/${_pauline.id},${_seb.id}');
     return app.dispatch(req).then((resp) {
       expect(resp.statusCode, equals(HttpStatus.OK));
       List<User> users = User.fromJsonList(resp.mockContent);
@@ -90,5 +90,4 @@ main() {
       return _users.findOne(where.eq('_id', _pauline.id)).then((_) => expect(_, isNull));
     });
   });
-
 }

@@ -1,20 +1,18 @@
 part of os_common;
 
 class User {
-
   // TODO This should be a dynamic property
   static const String BASE_URL = 'http://localhost:8081/user/';
 
   String id;
-  String username;
-  String firstname;
-  String lastname;
-  String password;
-  List<String> roles;
+  final String username;
+  final String firstname;
+  final String lastname;
+  final String password;
+  final List<String> roles;
 
-  User([this.username = null, this.firstname = null, this.lastname = null, this.password = null, List roles, this.id = null]) {
+  User([this.username = null, this.firstname = null, this.lastname = null, this.password = null, List roles, this.id = null]) :
     this.roles = (roles == null) ? new List() : roles;
-  }
 
   factory User.fromJson(value) {
     var json = value is String ? JSON.decode(value) : value;
@@ -57,5 +55,4 @@ class User {
     }
     return json.map((_) => new User.fromJson(_)).toList();
   }
-
 }
